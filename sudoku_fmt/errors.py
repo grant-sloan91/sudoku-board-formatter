@@ -41,3 +41,20 @@ class GridError(SudokuFormatError):
 
     def __init__(self, message):
         super().__init__(message)
+
+
+class DuplicateError(SudokuFormatError):
+    """The same digit appears twice in a row, column, or 3x3 box."""
+
+    def __init__(self, digit, unit_type, unit_index, first_cell, second_cell):
+        self.digit = digit
+        self.unit_type = unit_type
+        self.unit_index = unit_index
+        self.first_cell = first_cell
+        self.second_cell = second_cell
+        r1, c1 = first_cell
+        r2, c2 = second_cell
+        super().__init__(
+            f"digit {digit} appears twice in {unit_type} {unit_index}: "
+            f"row {r1} column {c1} and row {r2} column {c2}"
+        )

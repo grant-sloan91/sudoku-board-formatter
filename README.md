@@ -57,6 +57,22 @@ Row-length and grid-shape problems get the same treatment: a row with 10
 cells names its line number, and a puzzle with 8 or 10 rows says so instead
 of guessing which row is missing.
 
+## Validation
+
+Parsing only checks the shape of the puzzle: nine rows of nine cells.
+`validate_grid` checks that the digits it found are actually legal,
+i.e. no digit repeats within a row, column, or 3x3 box:
+
+```python
+>>> from sudoku_fmt import parse_grid, validate_grid
+>>> grid = parse_grid("55.......\n" + "........." * 8)
+>>> validate_grid(grid)
+sudoku_fmt.errors.DuplicateError: digit 5 appears twice in row 1: row 1 column 1 and row 1 column 2
+```
+
+`format_sudoku` takes an optional `validate=True` to run this check before
+rendering.
+
 ## Accepted input
 
 - Blank cells: `.`, `0`, or `_`
@@ -67,11 +83,11 @@ of guessing which row is missing.
 
 ## Status
 
-Early skeleton: parsing and both output styles work. See below for what's next.
+Early skeleton: parsing, both output styles, and duplicate-digit validation
+work. See below for what's next.
 
 ## Roadmap
 
-- validate parsed puzzles for duplicate digits in a row, column, or box
 - accept a `--file` / stdin CLI entry point
 - support parsing and rendering candidate/pencil-mark annotations
 - add a test suite covering the error-message paths
