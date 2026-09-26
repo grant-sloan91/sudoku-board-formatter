@@ -73,6 +73,19 @@ sudoku_fmt.errors.DuplicateError: digit 5 appears twice in row 1: row 1 column 1
 `format_sudoku` takes an optional `validate=True` to run this check before
 rendering.
 
+## Command line
+
+```sh
+sudoku-fmt --file puzzle.txt
+sudoku-fmt --file puzzle.txt --style compact --validate
+cat puzzle.txt | sudoku-fmt
+```
+
+Without `--file` (or with `--file -`), it reads from stdin. Parse and
+validation errors are printed to stderr and exit with status 1 instead of
+a traceback. `python -m sudoku_fmt` works the same way if the package
+isn't installed as a script.
+
 ## Accepted input
 
 - Blank cells: `.`, `0`, or `_`
@@ -83,11 +96,10 @@ rendering.
 
 ## Status
 
-Early skeleton: parsing, both output styles, and duplicate-digit validation
-work. See below for what's next.
+Early skeleton: parsing, both output styles, duplicate-digit validation,
+and a `--file`/stdin CLI work. See below for what's next.
 
 ## Roadmap
 
-- accept a `--file` / stdin CLI entry point
 - support parsing and rendering candidate/pencil-mark annotations
 - add a test suite covering the error-message paths
